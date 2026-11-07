@@ -48,6 +48,15 @@ together through the board's GND trace is how you burn a through-hole pad.
 A plain 16550 COM port usually only negotiates 115200; the driver detects
 this and stays there rather than failing.
 
+## 32-bit hosts
+
+Everything here builds and runs on 32-bit x86 as-is - the driver's 64-bit
+counters go through `div64_u64`/`div_u64` rather than plain division, which
+is what plain 64-bit arithmetic needs on a 32-bit kernel. `quickstart.sh`
+and `driver/Makefile` both check for kernel headers matching the *running*
+32-bit kernel before building and fail with a clear message if they're
+missing, instead of a wall of linker errors.
+
 ## Build + install + test speed + bring the link up
 
 ```bash
