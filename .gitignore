@@ -1,0 +1,17 @@
+firmware/.pio/
+tools/__pycache__/
+tools/comwifi-attach
+*.pyc
+
+# kernel module build output
+driver/*.o
+driver/*.ko
+driver/*.mod
+driver/*.mod.c
+driver/*.mod.o
+driver/.*.cmd
+driver/.*.o.cmd
+driver/.module-common.o
+driver/modules.order
+driver/Module.symvers
+driver/.tmp_versions/
