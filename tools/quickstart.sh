@@ -12,18 +12,7 @@ set -e
 root=$(cd "$(dirname "$0")/.." && pwd)
 port=${CW_PORT:-/dev/ttyUSB0}
 
-arch=$(uname -m)
-kdir="/lib/modules/$(uname -r)/build"
-echo "== host: $arch, kernel $(uname -r) =="
-if [ ! -d "$kdir" ]; then
-    cat >&2 <<EOF
-No kernel headers/build tree at $kdir.
-The module must be built against headers matching this exact $arch kernel
-(e.g. 'linux-headers' on Debian/Ubuntu, 'kernel-devel' on Fedora, or your
-32-bit distro's equivalent) - a generic/64-bit package won't link.
-EOF
-    exit 1
-fi
+"$root/tools/check-deps.sh"
 
 echo "== building kernel module =="
 make -C "$root/driver"

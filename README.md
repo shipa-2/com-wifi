@@ -48,6 +48,21 @@ together through the board's GND trace is how you burn a through-hole pad.
 A plain 16550 COM port usually only negotiates 115200; the driver detects
 this and stays there rather than failing.
 
+## Dependencies
+
+Checked automatically by `tools/check-deps.sh` (run by `quickstart.sh`,
+or on its own):
+
+- `make`, a C compiler (`cc`/`gcc`) — build the kernel module and `comwifi-attach`
+- Kernel headers/build tree matching the **running** kernel and arch
+  (`linux-headers` on Debian/Ubuntu, `kernel-devel` on Fedora, etc.)
+- `python3` with the `pyserial` module (`pip install pyserial`) — for
+  `tools/probe.py` and `tools/fake-esp.py`
+- `iwctl` (iwd) and `rfkill` — to bring the link up and join a network
+  (checked, but only warned about — not needed to build)
+- `pio` (PlatformIO, `pip install platformio`) — only for building the
+  ESP8266 firmware itself; check with `tools/check-deps.sh --firmware`
+
 ## 32-bit hosts
 
 Everything here builds and runs on 32-bit x86 as-is - the driver's 64-bit
@@ -63,7 +78,9 @@ missing, instead of a wall of linker errors.
 tools/quickstart.sh
 ```
 
-This builds the kernel module and `comwifi-attach`, loads the module with
+This checks build dependencies (`tools/check-deps.sh`: compiler, kernel
+headers matching the running kernel/arch, `python3`+`pyserial`), then
+builds the kernel module and `comwifi-attach`, loads the module with
 baud autotune enabled (probes every baud above 115200 and settles on the
 fastest one the link survives), attaches the serial port, and brings
 `wlan0` up. It still asks for a `YES` confirmation before `insmod` on your
